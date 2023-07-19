@@ -1,0 +1,10 @@
+
+i need it to call the dataa from the computer using psutil library here
+
+next i need it to start a timersomewhere else when that process timer starts (i need a timer per app that is opened)
+
+Net timer = amount spnt
+
+need it to stop when the process is closed
+
+need it to start when the process is opened
