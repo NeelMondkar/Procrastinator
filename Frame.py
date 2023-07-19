@@ -1,19 +1,28 @@
-
-import time
 import psutil
+import time
 
-def process_exists(process_name):
-    return process_name in (i.name() for i in psutil.process_iter())
+def check_spotify_status():
+    try:
+        return any(proc.name() == "Spotify" for proc in psutil.process_iter())
+    except psutil.NoSuchProcess:
+        return False
 
-start = 0
-while not process_exists("Spotify"):
-    pass
+def get_spotify_usage_duration():
+    is_spotify_running = False
+    start_time = None
 
-start = time.time()
+    while True:
+        if check_spotify_status():
+            if not is_spotify_running:
+                is_spotify_running = True
+                start_time = time.time()
 
-while process_exists("Spotify"):
-    pass
+        elif is_spotify_running:
+            is_spotify_running = False
+            end_time = time.time()
+            duration_hours = (end_time - start_time) / 3600  # Convert to hours
+            return duration_hours
 
-end = time.time()
-time_used = end - start
-print("Time used:", time_used)
+# Example usage
+duration = get_spotify_usage_duration()
+print("Spotify usage duration:", duration, "hours")
